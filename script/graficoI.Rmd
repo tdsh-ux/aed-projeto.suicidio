@@ -1,0 +1,145 @@
+---
+title: "Gráfico I: Taxa de suicídios por país, por gênero, por continente e por ano"
+author: "Tiago da Silva"
+date: "12/06/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(tidytext)
+library(gutenbergr)
+library(scales)
+library(textdata)
+library(cowplot)
+library(ggthemes)
+library(ggrepel)
+library(directlabels)
+library(ggraph)
+setwd("C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/data")
+```
+
+# Lendo os dados.
+
+```{r, fig.width = 11, fig.height = 8}
+
+continents <- read.csv2("continents.txt") %>% rename(country = Country)
+
+gdp <- read.csv("GDP.csv")
+
+suicide <- read.csv("master.csv") %>% rename(country = ï..country) %>%
+  inner_join(continents) %>%
+  rename(continent = Continent) %>%
+  inner_join(gdp, by = c("country" = "TableName")) %>%
+  mutate(IncomeGroup = as.factor(IncomeGroup))
+
+worldmap <- jpeg::readJPEG("world_map.jpg")
+
+suicide
+gdp
+nrow(suicide)
+```
+
+
+# Gráfico I:
+
+```{r, fig.width = 8, fig.height = 8}
+#Países que estarão no gráfico.
+
+suicide %>%
+  group_by(country, sex, year, continent) %>%
+  summarise(suicide.rate = sum(suicides_no)/sum(population)) %>%
+  filter(!suicide.rate < 0, !country == ifelse(suicide.rate == 0, FALSE, TRUE)) %>%
+  ungroup() %>%
+  mutate(country = reorder(country, -suicide.rate, FUN = mean)) %>%
+  group_by(country) %>%
+  summarise(suicide = mean(suicide.rate)) %>%
+  top_n(44)  -> selected_countries
+
+
+suicide %>%
+  group_by(country, sex, year, continent) %>%
+  summarise(suicide.rate = sum(suicides_no)/sum(population)) %>%
+  filter(!suicide.rate < 0, year %in% seq(1986, 2016, by = 2)) %>%
+  ungroup() %>%
+  mutate(country = reorder(country, suicide.rate, FUN = mean)) %>%
+  filter(country %in% selected_countries$country) %>%
+  ggplot() +
+  geom_point(aes(x = country, y = suicide.rate, color = sex, alpha = year), size = 3.5) +
+  coord_flip() +
+  theme_bw() +
+  theme(axis.title.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        plot.margin = unit(c(0,4,0,0), "cm"),
+        legend.position = c(1.18, .8)) +
+  scale_alpha_continuous(range = c(0, .9),
+                         name = "Ano") +
+  scale_color_manual(values = c("#D147A1", "#0470C2"),
+                     labels = c("Feminino", "Maculino"),
+                     name = "Sexo") +
+  scale_y_sqrt(name = "Taxa de suicídio (por cem mil habitantes)",
+                     labels = function(b){paste0(b*10^5)}) -> suicide_plot
+
+
+
+
+suicide %>%
+  group_by(country, sex, year, continent) %>%
+  summarise(suicide.rate = sum(suicides_no)/sum(population)) %>%
+  filter(!suicide.rate < 0, year %in% seq(1986, 2016, by = 2)) %>%
+  ungroup() %>%
+  mutate(country = reorder(country, suicide.rate, FUN = mean)) %>%
+  filter(country %in% selected_countries$country) %>%
+  ggplot() +
+  geom_point(aes(x = country, y = .9, color = continent), size = 2.5, shape = 15) +
+  coord_flip() +
+  theme_bw() +
+  guides(color = FALSE, alpha = FALSE) +
+  theme(axis.title.y = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.text.x = element_text(color = "white"),
+        plot.margin = unit(c(0,.10, 0,0), "cm")) +
+  scale_color_manual(values = c("#FFB400",
+                                "#B20A01",
+                                "#008FA0",
+                                "#007701",
+                                "#003AB5",
+                                "#890068")) +
+  scale_y_continuous(name = " ")  -> continent_label
+
+
+
+
+ggdraw() +
+  draw_image(worldmap) -> map
+
+
+ggdraw() +
+  draw_label("As taxas de suicídio por gênero, por ano e por região",
+             size = 18/1.3,
+             fontface = "bold",
+             fontfamily = "mono") -> title
+
+plot_grid(b, a, nrow = 1, rel_widths = c(.2, 5)) -> main_plot
+
+
+plot_grid(map, title, nrow = 1, rel_widths = c(0.8, 3)) -> map_title
+
+
+plot_grid(map_title, c, ncol = 1, rel_heights = c(.35, 4)) -> output_suicide
+
+
+for(device in c("png", "pdf")){
+  ggsave(plot = output_suicide, 
+         filename = paste0("suicide_44.", device), path = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output", device = device, 
+         width = 8, height = 9.5, dpi = 300)
+}
+output_suicide
+
+```
+
+
+
+
