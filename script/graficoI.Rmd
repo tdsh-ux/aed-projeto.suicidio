@@ -43,7 +43,7 @@ nrow(suicide)
 
 # Gráfico I:
 
-```{r, fig.width = 8, fig.height = 8}
+```{r, fig.width = 8, fig.height = 9.5}
 
 save_pdf_png <- function(plot, nome, diretorio, width, height) {
   for(device in c("png", "pdf")){
@@ -56,6 +56,8 @@ save_pdf_png <- function(plot, nome, diretorio, width, height) {
            device = device)
   }
 }
+
+
 
 #Países que estarão no gráfico.
 

@@ -1,0 +1,84 @@
+---
+title: 'Gráfico III: Taxa de suicídio por geração'
+author: "Tiago da Silva"
+date: "12/06/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(tidytext)
+library(gutenbergr)
+library(scales)
+library(textdata)
+library(cowplot)
+library(ggthemes)
+library(ggrepel)
+library(directlabels)
+library(ggraph)
+setwd("C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/data")
+```
+
+# Lendo os dados.
+
+```{r, fig.width = 11, fig.height = 8}
+
+continents <- read.csv2("continents.txt") %>% rename(country = Country)
+
+gdp <- read.csv("GDP.csv")
+
+suicide <- read.csv("master.csv") %>% rename(country = ï..country) %>%
+  inner_join(continents) %>%
+  rename(continent = Continent) %>%
+  inner_join(gdp, by = c("country" = "TableName")) %>%
+  mutate(IncomeGroup = as.factor(IncomeGroup))
+
+worldmap <- jpeg::readJPEG("world_map.jpg")
+
+suicide
+gdp
+nrow(suicide)
+```
+
+
+```{r,  fig.height = 8, fig.height = 8}
+suicide %>%
+  group_by(sex, age) %>%
+  summarise(suicides = sum(suicides_no)/sum(population)) %>%
+  ungroup() %>%
+  mutate(suicides = ifelse(sex == "female", -suicides, suicides),
+         age = factor(age, levels = c("5-14 years", "15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years"))) %>%
+  ggplot(aes(y = age)) +
+  geom_col(aes(x = suicides, fill = sex)) +
+  theme_bw() +
+  theme(legend.position = "top",
+        axis.title.y = element_text(size = 13.5, face = "italic"),
+        legend.title = element_blank(),
+        axis.text.y = element_text(size = 13),
+        plot.title = element_text(size = 16, family = "mono", face = "bold", hjust = .5),
+        axis.title.x = element_text(size = 13.5, face = "italic"),
+        legend.text = element_text(size = 11),
+        axis.text.x = element_text(size = 13),
+        plot.caption = element_text(size = 9.5, hjust = 0)) +
+  geom_vline(xintercept = 0, lty = 2) +
+  scale_x_continuous(labels = c("20", "0", "20", "40"),
+                     name = "Taxa de suicídios (por cem mil habitantes)",
+                     limits = c(-25e-05, 45e-05)) +
+  scale_y_discrete(name = "Faixa etária (em anos)",
+                   labels = c("5-14", "15-24", "25-34", "35-54", "55-74", "75+")) +
+  scale_fill_manual(labels = c("Feminino", "Masculino"),
+                       values = c("#D147A1","#0470C2")) +
+  ggtitle("Taxa de suicídios por faixa etária") +
+  labs(captions = "Dados do Banco Mundial e da Organização Mundial da Saúde.") -> age_suicide
+
+age_suicide
+
+
+
+save_pdf_png(nome = "age_suicide", width = 9, height = 9, plot = age_suicide,
+             diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output")
+
+
+
+
+```

@@ -43,7 +43,6 @@ nrow(suicide)
 
 ```{r, fig.width = 11, fig.height = 8}
 
-
 translate <- function(nome) {
   if(nome == "Lower middle income") {
     nome = "Renda média baixa"
@@ -79,13 +78,15 @@ suicide %>%
         legend.title = element_blank(),
         legend.text = element_text(size = 13),
         axis.text.y = element_text(size = 13),
-        axis.title.y = element_text(size = 13),
+        axis.title.y = element_text(size = 13.5, face = "italic"),
         plot.title = element_text(hjust = .5, size = 16, family = "mono", face = "bold"),
         panel.grid.minor.y = element_blank(),
         panel.grid.minor.x = element_blank(),
         panel.grid.major.x = element_blank(),
-        panel.grid.major.y = element_line(linetype = 2)) +
-  ggtitle("Taxa de suicídios por grupo de renda") -> boxplot_incomegroup
+        panel.grid.major.y = element_line(linetype = 2),
+        plot.caption = element_text(hjust = 0, size = 9.5)) +
+  ggtitle("Taxa de suicídios por grupo de renda") +
+  labs(captions = "Dados do Banco Mundial e da Organização Mundial da Saúde.") -> boxplot_incomegroup
 
 
 
