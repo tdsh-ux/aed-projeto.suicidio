@@ -137,13 +137,13 @@ ggdraw() +
              fontface = "bold",
              fontfamily = "mono") -> title
 
-plot_grid(b, a, nrow = 1, rel_widths = c(.2, 5)) -> main_plot
+plot_grid(continent_label, suicide_plot, nrow = 1, rel_widths = c(.2, 5)) -> main_plot
 
 
 plot_grid(map, title, nrow = 1, rel_widths = c(0.8, 3)) -> map_title
 
 
-plot_grid(map_title, c, ncol = 1, rel_heights = c(.35, 4)) -> output_suicide
+plot_grid(map_title, main_plot, ncol = 1, rel_heights = c(.35, 4)) -> output_suicide
 
 save_pdf_png(plot = output_suicide, nome = "suicide_44", 
              diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output",
