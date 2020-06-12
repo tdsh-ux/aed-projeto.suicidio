@@ -7,15 +7,11 @@ output: html_document
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(tidytext)
-library(gutenbergr)
 library(scales)
-library(textdata)
 library(cowplot)
 library(ggthemes)
 library(ggrepel)
 library(directlabels)
-library(ggraph)
 setwd("C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/data")
 ```
 

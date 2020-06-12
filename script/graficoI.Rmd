@@ -7,15 +7,11 @@ output: html_document
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(tidytext)
-library(gutenbergr)
 library(scales)
-library(textdata)
 library(cowplot)
 library(ggthemes)
 library(ggrepel)
 library(directlabels)
-library(ggraph)
 setwd("C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/data")
 ```
 
@@ -44,6 +40,7 @@ nrow(suicide)
 # Gráfico I:
 
 ```{r, fig.width = 8, fig.height = 9.5}
+
 
 save_pdf_png <- function(plot, nome, diretorio, width, height) {
   for(device in c("png", "pdf")){
