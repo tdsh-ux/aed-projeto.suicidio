@@ -1,0 +1,7 @@
+As bases de dados utilizadas foram retiradas dos seguintes sites:
+
+continents.txt: https://github.com/dbouquin/IS_608/blob/master/NanosatDB_munging/Countries-Continents.csv
+
+GDP.csv: http://api.worldbank.org/v2/en/indicator/NY.GDP.PCAP.KD?downloadformat=csv
+
+master.csv: https://www.kaggle.com/russellyates88/suicide-rates-overview-1985-to-2016
