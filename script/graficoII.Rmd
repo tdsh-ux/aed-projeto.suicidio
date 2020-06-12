@@ -1,0 +1,102 @@
+---
+title: 'Gráfico II: Taxa de suicídio por grupo de renda'
+author: "Tiago da Silva"
+date: "12/06/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(tidytext)
+library(gutenbergr)
+library(scales)
+library(textdata)
+library(cowplot)
+library(ggthemes)
+library(ggrepel)
+library(directlabels)
+library(ggraph)
+setwd("C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/data")
+```
+
+# Lendo os dados.
+
+```{r, fig.width = 11, fig.height = 8}
+
+continents <- read.csv2("continents.txt") %>% rename(country = Country)
+
+gdp <- read.csv("GDP.csv")
+
+suicide <- read.csv("master.csv") %>% rename(country = ï..country) %>%
+  inner_join(continents) %>%
+  rename(continent = Continent) %>%
+  inner_join(gdp, by = c("country" = "TableName")) %>%
+  mutate(IncomeGroup = as.factor(IncomeGroup))
+
+worldmap <- jpeg::readJPEG("world_map.jpg")
+
+suicide
+gdp
+nrow(suicide)
+```
+
+
+```{r, fig.width = 11, fig.height = 8}
+
+
+translate <- function(nome) {
+  if(nome == "Lower middle income") {
+    nome = "Renda média baixa"
+  } else if(nome == "Upper middle income") {
+    nome = "Renda média alta"
+  } else if(nome == "High income") {
+    nome = "Alta renda"
+  }
+}
+
+
+suicide %>%
+  mutate(IncomeGroup = sapply(IncomeGroup, translate)) %>%
+  mutate(IncomeGroup = factor(IncomeGroup, levels = c("Renda média baixa", "Renda média alta", "Alta renda"))) %>%
+  group_by(country, year, HDI.for.year, IncomeGroup, continent) %>%
+  summarise(suicide.rate = sum(suicides_no)/sum(population)) %>%
+  ungroup() %>%
+  filter(year == 2010,
+         !suicide.rate == 0) %>%
+  ggplot() +
+  geom_boxplot(aes(x = IncomeGroup, y = suicide.rate, fill = IncomeGroup)) +
+  scale_y_sqrt(name = "Taxa de suicídios (por cem mil habitantes)",
+               labels = function(b){paste0(b * 10^5)}) +
+  theme_bw() +
+  scale_fill_manual(values = c("#f7fcb9",
+                                "#addd8e",
+                                "#31a354")
+                    ) +
+        theme(legend.position = "top",
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        legend.title = element_blank(),
+        legend.text = element_text(size = 13),
+        axis.text.y = element_text(size = 13),
+        axis.title.y = element_text(size = 13),
+        plot.title = element_text(hjust = .5, size = 16, family = "mono", face = "bold"),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line(linetype = 2)) +
+  ggtitle("Taxa de suicídios por grupo de renda") -> boxplot_incomegroup
+
+
+
+boxplot_incomegroup
+
+save_pdf_png(plot = boxplot_incomegroup,
+             nome = "boxplot_suicidio",
+             diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output",
+             width = 11, height = 8)
+
+
+
+
+```

@@ -44,6 +44,19 @@ nrow(suicide)
 # Gráfico I:
 
 ```{r, fig.width = 8, fig.height = 8}
+
+save_pdf_png <- function(plot, nome, diretorio, width, height) {
+  for(device in c("png", "pdf")){
+    ggsave(plot = plot,
+           path = diretorio,
+           width = width,
+           height = height,
+           dpi = 300,
+           filename = paste0(nome, ".", device),
+           device = device)
+  }
+}
+
 #Países que estarão no gráfico.
 
 suicide %>%
@@ -130,12 +143,10 @@ plot_grid(map, title, nrow = 1, rel_widths = c(0.8, 3)) -> map_title
 
 plot_grid(map_title, c, ncol = 1, rel_heights = c(.35, 4)) -> output_suicide
 
+save_pdf_png(plot = output_suicide, nome = "suicide_44", 
+             diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output",
+             width = 8, height = 9.5)
 
-for(device in c("png", "pdf")){
-  ggsave(plot = output_suicide, 
-         filename = paste0("suicide_44.", device), path = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output", device = device, 
-         width = 8, height = 9.5, dpi = 300)
-}
 output_suicide
 
 ```
