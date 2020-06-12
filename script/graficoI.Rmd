@@ -12,28 +12,33 @@ library(cowplot)
 library(ggthemes)
 library(ggrepel)
 library(directlabels)
-setwd("C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/data")
 ```
 
 # Lendo os dados.
 
 ```{r, fig.width = 11, fig.height = 8}
 
-continents <- read.csv2("continents.txt") %>% rename(country = Country)
+carregar <- function(file, extensao = "csv") {
+  if(extensao == "csv") {
+    read.csv(paste0("C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/data/", file))
+  } else if(extensao == "csv2") {
+    read.csv2(paste0("C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/data/", file))
+  }
+}
 
-gdp <- read.csv("GDP.csv")
+continents <- carregar("continents.txt", "csv2") %>% rename(country = Country)
 
-suicide <- read.csv("master.csv") %>% rename(country = ï..country) %>%
+gdp <- carregar("GDP.csv")
+
+suicide <- carregar("master.csv") %>% rename(country = ï..country) %>%
   inner_join(continents) %>%
   rename(continent = Continent) %>%
   inner_join(gdp, by = c("country" = "TableName")) %>%
   mutate(IncomeGroup = as.factor(IncomeGroup))
 
-worldmap <- jpeg::readJPEG("world_map.jpg")
 
-suicide
-gdp
-nrow(suicide)
+worldmap <- jpeg::readJPEG("C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/data/world_map.jpg")
+
 ```
 
 
@@ -53,7 +58,6 @@ save_pdf_png <- function(plot, nome, diretorio, width, height) {
            device = device)
   }
 }
-
 
 
 #Países que estarão no gráfico.
@@ -95,7 +99,7 @@ suicide %>%
 
 
 
-suicide %>%
+suicide %>% 
   group_by(country, sex, year, continent) %>%
   summarise(suicide.rate = sum(suicides_no)/sum(population)) %>%
   filter(!suicide.rate < 0, year %in% seq(1986, 2016, by = 2)) %>%

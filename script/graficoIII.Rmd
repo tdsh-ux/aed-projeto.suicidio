@@ -12,28 +12,22 @@ library(cowplot)
 library(ggthemes)
 library(ggrepel)
 library(directlabels)
-setwd("C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/data")
 ```
 
 # Lendo os dados.
 
 ```{r, fig.width = 11, fig.height = 8}
 
-continents <- read.csv2("continents.txt") %>% rename(country = Country)
+continents <- carregar("continents.txt", "csv2") %>% rename(country = Country)
+#A função carregar foi definida no arquivo graficoI.Rmd.
+gdp <- carregar("GDP.csv")
 
-gdp <- read.csv("GDP.csv")
-
-suicide <- read.csv("master.csv") %>% rename(country = ï..country) %>%
+suicide <- carregar("master.csv") %>% rename(country = ï..country) %>%
   inner_join(continents) %>%
   rename(continent = Continent) %>%
   inner_join(gdp, by = c("country" = "TableName")) %>%
   mutate(IncomeGroup = as.factor(IncomeGroup))
 
-worldmap <- jpeg::readJPEG("world_map.jpg")
-
-suicide
-gdp
-nrow(suicide)
 ```
 
 
