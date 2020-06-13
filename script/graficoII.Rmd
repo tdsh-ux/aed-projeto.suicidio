@@ -43,6 +43,21 @@ translate <- function(nome) {
   }
 }
 
+suicide %>%
+  filter(year == 2010) %>%
+  group_by(country, continent, HDI.for.year) %>%
+  summarise(suicide.rate = sum(suicides_no)/sum(population)) %>%
+  ungroup() %>%
+  ggplot(aes(x = HDI.for.year, y = suicide.rate)) +
+  geom_point() +
+  labs(x = "Índice de desenvolvimento humano", y = "Taxa de suicídios (por cem mil habitantes)") +
+  scale_y_continuous(labels = function(b){paste0(b*10^5)}) +
+  theme_bw() +
+  theme(axis.title.x = element_text(size = 13),
+        axis.title.y = element_text(size = 13))-> hdi_suicide
+
+save_pdf_png(plot = hdi_suicide, width = 8, height = 8, diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output",
+             nome = "hdi_suicide")
 
 suicide %>%
   mutate(IncomeGroup = sapply(IncomeGroup, translate)) %>%
