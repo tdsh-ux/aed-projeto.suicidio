@@ -3,7 +3,6 @@ library(scales)
 library(cowplot)
 library(ggthemes)
 library(ggrepel)
-library(directlabels)
 
 
 carregar <- function(file, extensao = "csv") {
