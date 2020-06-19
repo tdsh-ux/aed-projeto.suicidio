@@ -215,8 +215,7 @@ suicide_gender %>%
         plot.margin = unit(c(0,.10, 0,0), "cm"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank()) +
-  scale_color_manual(values = c("#FFB400",
-                                "#B20A01",
+  scale_color_manual(values = c("#B20A01",
                                 "#008FA0",
                                 "#007701",
                                 "#003AB5",
