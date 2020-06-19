@@ -256,20 +256,28 @@ save_pdf_png(nome = "age_suicide", width = 9, height = 9, plot = age_suicide,
 suicide %>%
   group_by(country, sex, year, continent) %>%
   summarise(suicide.rate = sum(suicides_no)/sum(population)) %>%
-  filter(!suicide.rate < 0, year %in% seq(1986, 2016, by = 1)) %>%
-  ungroup() %>%
-  mutate(country = reorder(country, suicide.rate, FUN = mean)) %>%
-  filter(country %in% selected_countries$country) -> suicide_gender
-
-suicide %>%
-  group_by(country, sex, year, continent) %>%
-  summarise(suicide.rate = sum(suicides_no)/sum(population)) %>%
   filter(!suicide.rate < 0, !country == ifelse(suicide.rate == 0, FALSE, TRUE)) %>%
   ungroup() %>%
   mutate(country = reorder(country, -suicide.rate, FUN = mean)) %>%
   group_by(country) %>%
   summarise(suicide = mean(suicide.rate)) %>%
-  top_n(44)  -> selected_countries
+  top_n(45) -> selected_countries
+
+
+suicide %>%
+  group_by(country, sex, year, continent) %>%
+  summarise(suicide.rate = sum(suicides_no)/sum(population)) %>%
+  filter(!suicide.rate <= 0, year %in% seq(1986, 2016, by = 1)) %>%
+  ungroup() %>%
+  mutate(country = reorder(country, suicide.rate, FUN = mean)) %>%
+  filter(country %in% selected_countries$country) -> suicide_gender
+
+suicide_gender %>%
+  count(country) %>%
+  filter(n > 30) -> selected_countriesII
+
+suicide_gender %>%
+  filter(country %in% selected_countriesII$country) -> suicide_gender
 
 
 suicide_gender %>%
@@ -349,4 +357,6 @@ output_suicideII
 save_pdf_png(plot = output_suicideII, nome = "suicide_II", 
              diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output",
              width = 8, height = 9.5)
+
+
 
