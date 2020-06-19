@@ -247,7 +247,7 @@ output_suicideII
 
 save_pdf_png(plot = output_suicideII, nome = "suicide_II", 
              diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output",
-             width = 8, height = 9.5)
+             width = 8, height = 9.49)
 
 
 ```
