@@ -186,9 +186,9 @@ suicide_gender %>%
         plot.margin = unit(c(0,4,0,0), "cm"),
         legend.position = c(1.18, .69),
         legend.title = element_text(face = "bold")) +
-  scale_fill_gradient(low = "#f7fcf0", high = "#084081",
+  scale_fill_gradient(low = "#deebf7", high = "#084081",
                       "Ano (masculino)") + 
-  scale_color_gradient(low = "#fff7f3", high = "#ae017e",
+  scale_color_gradient(low = "#fcc5c0", high = "#ae017e",
                        name = "Ano (feminino)") +
   scale_y_log10(name = "Taxa de suicídio (por cem mil habitantes)",
                 labels = function(b){paste0(b*10^5)}) +
