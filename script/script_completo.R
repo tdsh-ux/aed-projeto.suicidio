@@ -106,14 +106,16 @@ suicide %>%
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
         axis.text.x = element_text(color = "white"),
-        plot.margin = unit(c(0,.10, 0,0), "cm")) +
+        plot.margin = unit(c(0,.10, 0,0), "cm"),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank()) +
   scale_color_manual(values = c("#FFB400",
                                 "#B20A01",
                                 "#008FA0",
                                 "#007701",
                                 "#003AB5",
                                 "#890068")) +
-  scale_y_continuous(name = " ")  -> continent_label
+  scale_y_continuous(name = " ") -> continent_label
 
 
 
