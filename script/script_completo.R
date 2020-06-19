@@ -252,6 +252,7 @@ save_pdf_png(nome = "age_suicide", width = 9, height = 9, plot = age_suicide,
 
 # GRÁFICO I, VERSÃO II
 
+
 suicide %>%
   group_by(country, sex, year, continent) %>%
   summarise(suicide.rate = sum(suicides_no)/sum(population)) %>%
@@ -268,7 +269,7 @@ suicide %>%
   mutate(country = reorder(country, -suicide.rate, FUN = mean)) %>%
   group_by(country) %>%
   summarise(suicide = mean(suicide.rate)) %>%
-  top_n(35)  -> selected_countries
+  top_n(44)  -> selected_countries
 
 
 suicide_gender %>%
@@ -285,9 +286,9 @@ suicide_gender %>%
         plot.margin = unit(c(0,4,0,0), "cm"),
         legend.position = c(1.18, .69),
         legend.title = element_text(face = "bold")) +
-  scale_fill_gradient(low = "#f7fcf0", high = "#084081",
+  scale_fill_gradient(low = "#deebf7", high = "#084081",
                       "Ano (masculino)") + 
-  scale_color_gradient(low = "#fff7f3", high = "#ae017e",
+  scale_color_gradient(low = "#fcc5c0", high = "#ae017e",
                        name = "Ano (feminino)") +
   scale_y_log10(name = "Taxa de suicídio (por cem mil habitantes)",
                 labels = function(b){paste0(b*10^5)}) +
@@ -348,7 +349,4 @@ output_suicideII
 save_pdf_png(plot = output_suicideII, nome = "suicide_II", 
              diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output",
              width = 8, height = 9.5)
-
-
-
 
