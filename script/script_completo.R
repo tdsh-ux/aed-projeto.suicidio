@@ -4,7 +4,7 @@ library(cowplot)
 library(ggthemes)
 library(ggrepel)
 
-
+#---------------------------------------------------------------------------------------------
 carregar <- function(file, extensao = "csv") {
   if(extensao == "csv") {
     read.csv(paste0("C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/data/", file))
@@ -35,6 +35,8 @@ translate <- function(nome) {
   }
 }
 
+#--------------------------------------------------------------------------------------
+
 continents <- carregar("continents.txt", "csv2") %>% rename(country = Country)
 
 gdp <- carregar("GDP.csv")
@@ -46,8 +48,6 @@ suicide <- carregar("master.csv") %>% rename(country = ï..country) %>%
   mutate(IncomeGroup = as.factor(IncomeGroup))
 
 worldmap <- jpeg::readJPEG("C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/data/world_map.jpg")
-
-
 
 
 traducao <- carregar("continents_pt.txt", "csv2") %>%
