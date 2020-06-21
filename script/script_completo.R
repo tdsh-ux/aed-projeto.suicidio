@@ -64,7 +64,7 @@ traducao <- cbind(traducao, continents) %>% select(country_pt, country)
 suicide <- suicide %>%
   inner_join(traducao)
 
-
+#-------------------------------------------------------------------------------------------
 ### GRÁFICO I
 
 suicide %>%
@@ -263,6 +263,7 @@ age_suicide
 
 save_pdf_png(nome = "age_suicide", width = 9, height = 9, plot = age_suicide,
              diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output")
+
 
 
 # GRÁFICO I, VERSÃO II
