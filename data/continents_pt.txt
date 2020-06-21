@@ -1,0 +1,196 @@
+Continente;País
+África; Argélia
+África; Angola
+África; Benim
+África; Botsuana
+África; Burkina
+África; Burundi
+África; Camarões
+África; Cabo Verde
+África; República Centro-Africana
+África; Chade
+África; Comores
+África; Congo
+África;Djibuti
+África; Egipto
+África; Guiné Equatorial
+África; Eritreia
+África; Etiópia
+África; Gabão
+África; Gâmbia
+África; Gana
+África; Guiné
+África; Guiné-Bissau
+África; Costa do Marfim
+África; Quénia
+África; Lesoto
+África; Libéria
+África; Líbia
+África; Madagáscar
+África; Malavi
+África; Mali
+África; Mauritânia
+África; Maurícia
+África; Marrocos
+África; Moçambique
+África; Namíbia
+África; Níger
+África; Nigéria
+África; Ruanda
+África; São Tomé e Príncipe
+África; Senegal
+África; Seychelles
+África; Serra Leoa
+África; Somália
+África; África do Sul
+África; Sul do Sudão
+África; Sudão
+África; Suazilândia
+África; Tanzânia
+África; Togo
+África; Tunísia
+África; Uganda
+África; Zâmbia
+África; Zimbabué
+Ásia; Afeganistão
+Ásia; Barém
+Ásia; Bangladesh
+Ásia; Butão
+Ásia;Brunei
+Ásia; Birmânia (Myanmar)
+Ásia; Camboja
+Ásia; China
+Ásia; Timor Leste
+Ásia; Índia
+Ásia; Indonésia
+Ásia; Irão
+Ásia; Iraque
+Ásia; Israel
+Ásia; Japão
+Ásia; Jordânia
+Ásia; Cazaquistão
+Ásia; "Coreia; Norte".
+Ásia; "Coreia; Sul".
+Ásia; Kuwait
+Ásia; Quirguizistão
+Ásia; Laos
+Ásia; Líbano
+Ásia; Malásia
+Ásia; Maldivas
+Ásia; Mongólia
+Ásia; Nepal
+Ásia;Omã
+Ásia; Paquistão
+Ásia; Filipinas
+Ásia; Qatar
+Ásia; Federação Russa
+Ásia; Arábia Saudita
+Ásia; Singapura
+Ásia; Sri Lanca
+Ásia; Síria
+Ásia; Tajiquistão
+Ásia; Tailândia
+Ásia; Turquia
+Ásia; Turquemenistão
+Ásia; Emiratos Árabes Unidos
+Ásia; Uzbequistão
+Ásia; Vietname
+Ásia; Iémen
+Europa; Albânia
+Europa; Andorra
+Europa; Arménia
+Europa; Áustria
+Europa; Azerbaijão
+Europa; Bielorrússia
+Europa; Bélgica
+Europa; Bósnia e Herzegovina
+Europa; Bulgária
+Europa; Croácia
+Europa; Chipre
+Europa;CZ
+Europa; Dinamarca
+Europa; Estónia
+Europa; Finlândia
+Europa; França
+Europa; Geórgia
+Europa; Alemanha
+Europa; Grécia
+Europa; Hungria
+Europa; Islândia
+Europa; Irlanda
+Europa; Itália
+Europa; Letónia
+Europa; Liechtenstein
+Europa; Lituânia
+Europa; Luxemburgo
+Europa; Macedónia
+Europa; Malta
+Europa; Moldávia
+Europa; Mónaco
+Europa; Montenegro
+Europa; Países Baixos
+Europa; Noruega
+Europa; Polónia
+Europa; Portugal
+Europa; Roménia
+Europa; São Marino
+Europa; Sérvia
+Europa; Eslováquia
+Europa; Eslovénia
+Europa; Espanha
+Europa; Suécia
+Europa; Suíça
+Europa; Ucrânia
+Europa; Reino Unido
+Europa; Cidade do Vaticano
+América do Norte; Antígua e Barbuda
+América do Norte; Bahamas
+América do Norte; Barbados
+América do Norte; Belize
+América do Norte; Canadá
+América do Norte; Costa Rica
+América do Norte; Cuba
+América do Norte; Domínica
+América do Norte; República Dominicana
+América do Norte; El Salvador
+América do Norte; Granada
+América do Norte; Guatemala
+América do Norte; Haiti
+América do Norte;Honduras
+América do Norte; Jamaica
+América do Norte; México
+América do Norte; Nicarágua
+América do Norte; Panamá
+América do Norte; São Cristóvão e Nevis
+América do Norte; Santa Lúcia
+América do Norte; São Vicente e Granadinas
+América do Norte; Trindade e Tobago
+América do Norte;EUA
+Oceania;Austrália
+Oceania;Fiji
+Oceânia; Kiribati
+Oceânia; Ilhas Marshall
+Oceânia; Micronésia
+Oceânia;Nauru
+Oceânia; Nova Zelândia
+Oceania;Palau
+Oceânia; Papuásia-Nova Guiné
+Oceânia;Samoa
+Oceânia; Ilhas Salomão
+Oceânia;Tonga
+Oceânia; Tuvalu
+Oceania;Vanuatu
+América do Sul; Argentina
+América do Sul; Bolívia
+América do Sul;Brasil
+América do Sul; Chile
+América do Sul; Colômbia
+América do Sul; Equador
+América do Sul;Guiana
+América do Sul;Paraguai
+América do Sul; Peru
+América do Sul; Suriname
+América do Sul; Uruguai
+América do Sul; Venezuela
+
+Traduzido com a versão gratuita do tradutor - www.DeepL.com/Translator

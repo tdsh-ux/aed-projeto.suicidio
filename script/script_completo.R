@@ -50,6 +50,21 @@ worldmap <- jpeg::readJPEG("C:/Users/tiago/OneDrive/Documentos/aed-projeto.suici
 
 
 
+traducao <- carregar("continents_pt.txt", "csv2") %>%
+  rename(country_pt = PaÃ.s) %>%
+  filter(row_number() < 194)
+
+
+traducao$Continente <- iconv(traducao$Continente, from="UTF-8", to="LATIN1")
+
+traducao$country_pt <- iconv(traducao$country_pt, from="UTF-8", to="LATIN1")
+
+traducao <- cbind(traducao, continents) %>% select(country_pt, country)
+
+suicide <- suicide %>%
+  inner_join(traducao)
+
+
 ### GRÁFICO I
 
 suicide %>%
@@ -254,46 +269,49 @@ save_pdf_png(nome = "age_suicide", width = 9, height = 9, plot = age_suicide,
 
 
 suicide %>%
-  group_by(country, sex, year, continent) %>%
+  group_by(country_pt, country, sex, year, continent) %>%
   summarise(suicide.rate = sum(suicides_no)/sum(population)) %>%
   filter(!suicide.rate < 0, !country == ifelse(suicide.rate == 0, FALSE, TRUE)) %>%
   ungroup() %>%
-  mutate(country = reorder(country, -suicide.rate, FUN = mean)) %>%
-  group_by(country) %>%
+  mutate(country_pt = reorder(country_pt, -suicide.rate, FUN = mean)) %>%
+  group_by(country_pt) %>%
   summarise(suicide = mean(suicide.rate)) %>%
   top_n(45) -> selected_countries
 
 
 suicide %>%
-  group_by(country, sex, year, continent) %>%
+  group_by(country_pt, country, sex, year, continent) %>%
   summarise(suicide.rate = sum(suicides_no)/sum(population)) %>%
   filter(!suicide.rate <= 0, year %in% seq(1986, 2016, by = 1)) %>%
   ungroup() %>%
-  mutate(country = reorder(country, suicide.rate, FUN = mean)) %>%
-  filter(country %in% selected_countries$country) -> suicide_gender
+  mutate(country_pt = reorder(country_pt, suicide.rate, FUN = mean)) %>%
+  filter(country_pt %in% selected_countries$country_pt) -> suicide_gender
 
 suicide_gender %>%
-  count(country) %>%
+  count(country_pt) %>%
   filter(n > 30) -> selected_countriesII
 
 suicide_gender %>%
-  filter(country %in% selected_countriesII$country) -> suicide_gender
+  filter(country_pt %in% selected_countriesII$country_pt) -> suicide_gender
 
 
 suicide_gender %>%
   ggplot() +
   geom_point(data = suicide_gender %>% filter(sex == "female"), 
-             aes(x = country, y = suicide.rate, color = year), size = 3.5) +
+             aes(x = country_pt, y = suicide.rate, color = year), size = 3.5) +
   geom_point(data = suicide_gender %>% filter(sex == "male"),
              shape = 21,
-             aes(x = country, y = suicide.rate, fill = year), size = 3.5, color = "transparent") +
+             aes(x = country_pt, y = suicide.rate, fill = year), size = 3.5, color = "transparent") +
   coord_flip() +
   theme_bw() +
   theme(axis.title.y = element_blank(),
         axis.ticks.y = element_blank(),
         plot.margin = unit(c(0,4,0,0), "cm"),
         legend.position = c(1.18, .69),
-        legend.title = element_text(face = "bold")) +
+        legend.title = element_text(face = "bold"),
+        panel.grid.major.y = element_line(color = "grey", linetype = 3),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank()) +
   scale_fill_gradient(low = "#deebf7", high = "#084081",
                       "Ano (masculino)") + 
   scale_color_gradient(low = "#fcc5c0", high = "#ae017e",
@@ -309,9 +327,10 @@ suicide_gender %>%
 
 
 
+
 suicide_gender %>%
   ggplot() +
-  geom_point(aes(x = country, y = .9, color = continent), size = 2.5, shape = 15) +
+  geom_point(aes(x = country_pt, y = .9, color = continent), size = 2.5, shape = 15) +
   coord_flip() +
   theme_bw() +
   guides(color = FALSE, alpha = FALSE) +
@@ -357,6 +376,4 @@ output_suicideII
 save_pdf_png(plot = output_suicideII, nome = "suicide_II", 
              diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output",
              width = 8, height = 9.5)
-
-
 
