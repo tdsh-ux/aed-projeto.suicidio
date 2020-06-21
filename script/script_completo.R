@@ -267,7 +267,6 @@ save_pdf_png(nome = "age_suicide", width = 9, height = 9, plot = age_suicide,
 
 # GRÁFICO I, VERSÃO II
 
-
 suicide %>%
   group_by(country_pt, country, sex, year, continent) %>%
   summarise(suicide.rate = sum(suicides_no)/sum(population)) %>%
@@ -306,7 +305,7 @@ suicide_gender %>%
   theme_bw() +
   theme(axis.title.y = element_blank(),
         axis.ticks.y = element_blank(),
-        plot.margin = unit(c(0,4,0,0), "cm"),
+        plot.margin = unit(c(0,4.5,0,0), "cm"),
         legend.position = c(1.18, .69),
         legend.title = element_text(face = "bold"),
         panel.grid.major.y = element_line(color = "grey", linetype = 3),
@@ -375,5 +374,5 @@ output_suicideII
 
 save_pdf_png(plot = output_suicideII, nome = "suicide_II", 
              diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output",
-             width = 8, height = 9.5)
+             width = 9, height = 9.5)
 
