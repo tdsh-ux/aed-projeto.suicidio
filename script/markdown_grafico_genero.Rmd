@@ -165,7 +165,7 @@ save_pdf_png(plot = output_suicide, nome = "suicide_44",
 
 ```
 
-```{r, fig.height = 9.5, fig.width = 8}
+```{r, fig.height = 9.5, fig.width = 9}
 
 suicide %>%
   group_by(country_pt, country, sex, year, continent) %>%
@@ -274,12 +274,10 @@ output_suicideII
 
 save_pdf_png(plot = output_suicideII, nome = "suicide_II", 
              diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output",
-             width = 8, height = 9.5)
-
-
-
+             width = 9, height = 9.5)
 
 ```
+
 
 
 
