@@ -10,7 +10,6 @@ library(tidyverse)
 library(scales)
 library(cowplot)
 library(ggthemes)
-library(ggrepel)
 library(directlabels)
 ```
 
@@ -24,10 +23,9 @@ gdp <- carregar("GDP.csv")
 
 suicide <- carregar("master.csv") %>% rename(country = ï..country) %>%
   inner_join(continents) %>%
-  rename(continent = Continent) %>%
+  rename(continent = Continent, gcap = gdp_per_capita....) %>%
   inner_join(gdp, by = c("country" = "TableName")) %>%
   mutate(IncomeGroup = as.factor(IncomeGroup))
-
 ```
 
 
@@ -72,24 +70,25 @@ suicide %>%
   scale_y_sqrt(name = "Taxa de suicídios (por cem mil habitantes)",
                labels = function(b){paste0(b * 10^5)}) +
   theme_bw() +
-  scale_fill_manual(values = c("#f7fcb9",
-                                "#addd8e",
-                                "#31a354")
+  scale_fill_manual(values = c("#42BA30",
+                                "#BA5A1E",
+                                "#190BBA")
                     ) +
-        theme(legend.position = "top",
-        axis.title.x = element_blank(),
-        axis.text.x = element_blank(),
-        axis.ticks.x = element_blank(),
-        legend.title = element_blank(),
-        legend.text = element_text(size = 13),
-        axis.text.y = element_text(size = 13),
-        axis.title.y = element_text(size = 13.5, face = "italic"),
-        plot.title = element_text(hjust = .5, size = 16, family = "mono", face = "bold"),
-        panel.grid.minor.y = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank(),
-        panel.grid.major.y = element_line(linetype = 2),
-        plot.caption = element_text(hjust = 0, size = 9.5)) +
+        theme(legend.position = c(0.5, 0.96),
+              legend.direction = "horizontal",
+              axis.title.x = element_blank(),
+              axis.text.x = element_blank(),
+              axis.ticks.x = element_blank(),
+              legend.title = element_blank(),
+              legend.text = element_text(size = 13),
+              axis.text.y = element_text(size = 13),
+              axis.title.y = element_text(size = 13.5, face = "italic"),
+              plot.title = element_text(hjust = .5, size = 16, family = "mono", face = "bold"),
+              panel.grid.minor.y = element_blank(),
+              panel.grid.minor.x = element_blank(),
+              panel.grid.major.x = element_blank(),
+              panel.grid.major.y = element_line(linetype = 2),
+              plot.caption = element_text(hjust = 0, size = 9.5)) +
   ggtitle("Taxa de suicídios por grupo de renda") +
   labs(captions = "Dados do Banco Mundial e da Organização Mundial da Saúde.") -> boxplot_incomegroup
 
@@ -101,6 +100,7 @@ save_pdf_png(plot = boxplot_incomegroup,
              nome = "boxplot_suicidio",
              diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output",
              width = 11, height = 8)
+
 
 
 
