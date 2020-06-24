@@ -211,9 +211,9 @@ suicide_gender %>%
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank()) +
   scale_fill_gradient(low = "#deebf7", high = "#084081",
-                      "Ano (masculino)") + 
+                      "Masculino (ano)") + 
   scale_color_gradient(low = "#fcc5c0", high = "#ae017e",
-                       name = "Ano (feminino)") +
+                       name = "Feminino (ano)") +
   scale_y_log10(name = "Taxa de suicídio (por cem mil habitantes)",
                 labels = function(b){paste0(b*10^5)}) +
   guides(fill = guide_colourbar(ticks.colour = "transparent", 
