@@ -18,7 +18,8 @@ library(directlabels)
 
 ```{r, fig.width = 11, fig.height = 8}
 
-continents <- carregar("continents.txt", "csv2") %>% rename(country = Country)
+continents <- carregar("continents.txt", "csv2") %>% rename(country = Country) %>%
+  mutate(country = ifelse(country == "US", "United States", country)) 
 #A função carregar foi definida no arquivo graficoI.Rmd.
 gdp <- carregar("GDP.csv")
 

@@ -37,7 +37,9 @@ translate <- function(nome) {
 
 #--------------------------------------------------------------------------------------
 
-continents <- carregar("continents.txt", "csv2") %>% rename(country = Country)
+
+continents <- carregar("continents.txt", "csv2") %>% rename(country = Country) %>%
+  mutate(country = ifelse(country == "US", "United States", country))
 
 gdp <- carregar("GDP.csv")
 

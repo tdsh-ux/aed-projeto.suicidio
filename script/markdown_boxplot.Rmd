@@ -17,15 +17,18 @@ library(directlabels)
 
 ```{r, fig.width = 11, fig.height = 8}
 
-continents <- carregar("continents.txt", "csv2") %>% rename(country = Country)   #A função carregar() foi definida em graficoI.Rmd.
+continents <- carregar("continents.txt", "csv2") %>% rename(country = Country) %>%
+  mutate(country = ifelse(country == "US", "United States", country)) #A função carregar() foi definida em graficoI.Rmd.
 
 gdp <- carregar("GDP.csv")
+
 
 suicide <- carregar("master.csv") %>% rename(country = ï..country) %>%
   inner_join(continents) %>%
   rename(continent = Continent, gcap = gdp_per_capita....) %>%
   inner_join(gdp, by = c("country" = "TableName")) %>%
   mutate(IncomeGroup = as.factor(IncomeGroup))
+
 
 ```
 
@@ -90,14 +93,29 @@ suicide %>%
 
 boxplot_incomegroup
 
+
+
 save_pdf_png(plot = boxplot_incomegroup,
              nome = "boxplot_suicidio",
              diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output",
              width = 11, height = 8)
 
 
+#Asia, Africa, Europe, North America, South America, Oceania
 
 
-suicide$IncomeGroup %>% table()
+
+population <- data.frame(continent = c("Africa", "Asia", "Europe", "North America", "Oceania", "South America"), pop = c(1216130000, 4581757408, 738849000, 579024000, 38304000, 422535000))
+
+population
+
+suicide %>%
+  filter(year == 2010) %>%
+  group_by(continent) %>%
+  summarise(sum = sum(population)) %>%
+  ungroup() %>%
+  inner_join(population, by = c("continent" = "continent")) %>%
+  mutate(ratio = sum/pop * 100)
+
 
 ```

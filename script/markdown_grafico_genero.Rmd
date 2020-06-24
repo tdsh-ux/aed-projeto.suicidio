@@ -25,7 +25,8 @@ carregar <- function(file, extensao = "csv") {
   }
 }
 
-continents <- carregar("continents.txt", "csv2") %>% rename(country = Country)
+continents <- carregar("continents.txt", "csv2") %>% rename(country = Country) %>%
+  mutate(country = ifelse(country == "US", "United States", country)) 
 
 gdp <- carregar("GDP.csv")
 
@@ -40,7 +41,8 @@ worldmap <- jpeg::readJPEG("C:/Users/tiago/OneDrive/Documentos/aed-projeto.suici
 
 traducao <- carregar("continents_pt.txt", "csv2") %>%
   rename(country_pt = PaÃ.s) %>%
-  filter(row_number() < 194)
+  filter(row_number() < 194) %>%
+  mutate(country_pt = ifelse(country_pt == "EUA", "Estados Unidos", country_pt))
 
 
 traducao$Continente <- iconv(traducao$Continente, from="UTF-8", to="LATIN1")
@@ -48,6 +50,8 @@ traducao$Continente <- iconv(traducao$Continente, from="UTF-8", to="LATIN1")
 traducao$country_pt <- iconv(traducao$country_pt, from="UTF-8", to="LATIN1")
 
 traducao <- cbind(traducao, continents) %>% select(country_pt, country)
+
+
 
 suicide <- suicide %>%
   inner_join(traducao)
