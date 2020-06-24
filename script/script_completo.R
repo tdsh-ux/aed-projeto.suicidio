@@ -180,8 +180,7 @@ save_pdf_png(plot = hdi_suicide, width = 8, height = 8, diretorio = "C:/Users/ti
              nome = "hdi_suicide")
 
 suicide %>%
-  mutate(IncomeGroup = sapply(IncomeGroup, translate)) %>%
-  mutate(IncomeGroup = factor(IncomeGroup, levels = c("Renda média baixa", "Renda média alta", "Alta renda"))) %>%
+  mutate(IncomeGroup = factor(IncomeGroup, levels = c("Lower middle income", "Upper middle income", "High income"))) %>%
   group_by(country, year, HDI.for.year, IncomeGroup, continent) %>%
   summarise(suicide.rate = sum(suicides_no)/sum(population)) %>%
   ungroup() %>%
@@ -192,11 +191,13 @@ suicide %>%
   scale_y_sqrt(name = "Taxa de suicídios (por cem mil habitantes)",
                labels = function(b){paste0(b * 10^5)}) +
   theme_bw() +
-  scale_fill_manual(values = c("#f7fcb9",
-                               "#addd8e",
-                               "#31a354")
+  scale_fill_manual(values = c("#42BA30",
+                               "#BA5A1E",
+                               "#190BBA"),
+                    labels = c(expression("Renda média baixa"^1), expression("Renda média alta"^2), expression("Alta renda"^3))
   ) +
-  theme(legend.position = "top",
+  theme(legend.position = c(0.5, 0.96),
+        legend.direction = "horizontal",
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank(),
@@ -211,7 +212,8 @@ suicide %>%
         panel.grid.major.y = element_line(linetype = 2),
         plot.caption = element_text(hjust = 0, size = 9.5)) +
   ggtitle("Taxa de suicídios por grupo de renda") +
-  labs(captions = "Dados do Banco Mundial e da Organização Mundial da Saúde.") -> boxplot_incomegroup
+  labs(captions = "PIB per capta (US$): 1. 1.036 - 4.085; 2. 4.086 - 12.615; 3. > 12.616. 
+       \nDados do Banco Mundial e da Organização Mundial da Saúde.") -> boxplot_incomegroup
 
 
 
