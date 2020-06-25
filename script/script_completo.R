@@ -67,7 +67,7 @@ suicide <- suicide %>%
   inner_join(traducao)
 
 #-------------------------------------------------------------------------------------------
-### GRÁFICO I
+### TAXA DE SUICÍDIOS POR GÊNERO - VERSÃO I
 
 suicide %>%
   group_by(country, sex, year, continent) %>%
@@ -163,7 +163,64 @@ output_suicide
 
 #-----------------------------------------------------------------------------------------------------------------------------------
 
-### GRÁFICO II (e II.V)
+### TAXA DE SUICÍDIO POR IDADE
+
+suicide_label <- function(x) {
+  if(x <= 0){
+    paste0(round(-x*10^5, 0))
+  } else if(x >= 0) {
+    paste0(round(x*10^5, 0))
+  }
+}
+
+
+suicide %>%
+  group_by(sex, age) %>%
+  summarise(suicides = sum(suicides_no)/sum(population)) %>%
+  ungroup() %>%
+  mutate(suicides = ifelse(sex == "female", -suicides, suicides),
+         age = factor(age, 
+                      levels = c("5-14 years", "15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years"))) -> age_data
+age_data %>%
+  ggplot(aes(y = age)) +
+  geom_col(aes(x = suicides, fill = sex)) +
+  theme_bw() +
+  theme(legend.position = "top",
+        axis.title.y = element_text(size = 13.5, face = "italic"),
+        legend.title = element_blank(),
+        axis.text.y = element_text(size = 13),
+        plot.title = element_text(size = 16, family = "mono", face = "bold", hjust = .5),
+        axis.title.x = element_text(size = 13.5, face = "italic"),
+        legend.text = element_text(size = 13),
+        axis.text.x = element_text(size = 13),
+        plot.caption = element_text(size = 9.5, hjust = 0),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank()) +
+  geom_vline(xintercept = 0, lty = 2) +
+  scale_x_continuous(labels = c("20", "0", "20", "40"),
+                     name = "Taxa de suicídios (por cem mil habitantes)",
+                     limits = c(-25e-05, 45e-05)) +
+  scale_y_discrete(name = "Faixa etária (em anos)",
+                   labels = c("5-14", "15-24", "25-34", "35-54", "55-74", "75+")) +
+  scale_fill_manual(labels = c("Feminino", "Masculino"),
+                    values = c("#D147A1","#0470C2")) +
+  ggtitle("Distribuição etária dos suicídios") +
+  labs(captions = "Dados do Banco Mundial e da Organização Mundial da Saúde.") +
+  geom_label(data = age_data %>% filter(!age == "5-14 years"), aes(label = sapply(suicides, suicide_label), x = suicides),
+             size = 5.8) +
+  geom_label_repel(data = age_data %>% filter(age == "5-14 years"),
+                   aes(label = sapply(suicides, suicide_label), x = suicides),
+                   size = 5.8)-> age_suicide
+
+age_suicide
+
+
+save_pdf_png(nome = "age_suicide", width = 9, height = 9, plot = age_suicide,
+             diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output")
+
+#-----------------------------------------------------------------------------------------------------------------------------------
+
+### TAXA DE SUICÍDIO POR GRUPO DE RENDA (E POR IDH)
 
 suicide %>%
   filter(year == 2010) %>%
@@ -176,7 +233,7 @@ suicide %>%
   scale_y_continuous(labels = function(b){paste0(b*10^5)}) +
   theme_bw() +
   theme(axis.title.x = element_text(size = 13),
-        axis.title.y = element_text(size = 13))-> hdi_suicide
+        axis.title.y = element_text(size = 13)) -> hdi_suicide
 
 save_pdf_png(plot = hdi_suicide, width = 8, height = 8, diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output",
              nome = "hdi_suicide")
@@ -221,72 +278,15 @@ suicide %>%
 
 boxplot_incomegroup
 
+
+
 save_pdf_png(plot = boxplot_incomegroup,
              nome = "boxplot_suicidio",
              diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output",
              width = 11, height = 8)
 
 #-----------------------------------------------------------------------------------------------------------------------------------
-
-### GRÁFICO III
-
-
-
-suicide_label <- function(x) {
-  if(x <= 0){
-    paste0(round(-x*10^5, 0))
-  } else if(x >= 0) {
-    paste0(round(x*10^5, 0))
-  }
-}
-
-
-suicide %>%
-  group_by(sex, age) %>%
-  summarise(suicides = sum(suicides_no)/sum(population)) %>%
-  ungroup() %>%
-  mutate(suicides = ifelse(sex == "female", -suicides, suicides),
-         age = factor(age, 
-                      levels = c("5-14 years", "15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years"))) -> age_data
-age_data %>%
-  ggplot(aes(y = age)) +
-  geom_col(aes(x = suicides, fill = sex)) +
-  theme_bw() +
-  theme(legend.position = "top",
-        axis.title.y = element_text(size = 13.5, face = "italic"),
-        legend.title = element_blank(),
-        axis.text.y = element_text(size = 13),
-        plot.title = element_text(size = 16, family = "mono", face = "bold", hjust = .5),
-        axis.title.x = element_text(size = 13.5, face = "italic"),
-        legend.text = element_text(size = 13),
-        axis.text.x = element_text(size = 13),
-        plot.caption = element_text(size = 9.5, hjust = 0),
-        panel.grid.major.x = element_blank(),
-        panel.grid.minor.x = element_blank()) +
-  geom_vline(xintercept = 0, lty = 2) +
-  scale_x_continuous(labels = c("20", "0", "20", "40"),
-                     name = "Taxa de suicídios (por cem mil habitantes)",
-                     limits = c(-25e-05, 45e-05)) +
-  scale_y_discrete(name = "Faixa etária (em anos)",
-                   labels = c("5-14", "15-24", "25-34", "35-54", "55-74", "75+")) +
-  scale_fill_manual(labels = c("Feminino", "Masculino"),
-                    values = c("#D147A1","#0470C2")) +
-  ggtitle("Taxa de suicídios por faixa etária") +
-  labs(captions = "Dados do Banco Mundial e da Organização Mundial da Saúde.") +
-  geom_label(data = age_data %>% filter(!age == "5-14 years"), aes(label = sapply(suicides, suicide_label), x = suicides),
-             size = 5.8) +
-  geom_label_repel(data = age_data %>% filter(age == "5-14 years"),
-                   aes(label = sapply(suicides, suicide_label), x = suicides),
-                   size = 5.8)-> age_suicide
-
-
-age_suicide
-
-save_pdf_png(nome = "age_suicide", width = 9, height = 9, plot = age_suicide,
-             diretorio = "C:/Users/tiago/OneDrive/Documentos/aed-projeto.suicidio/output")
-
-
-# GRÁFICO I, VERSÃO II
+# TAXA DE SUICÍDIO POR GÊNERO - VERSÃO II
 
 suicide %>%
   group_by(country_pt, country, sex, year, continent) %>%
@@ -333,9 +333,9 @@ suicide_gender %>%
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank()) +
   scale_fill_gradient(low = "#deebf7", high = "#084081",
-                      "Ano (masculino)") + 
+                      "Masculino (ano)") + 
   scale_color_gradient(low = "#fcc5c0", high = "#ae017e",
-                       name = "Ano (feminino)") +
+                       name = "Feminino (ano)") +
   scale_y_log10(name = "Taxa de suicídio (por cem mil habitantes)",
                 labels = function(b){paste0(b*10^5)}) +
   guides(fill = guide_colourbar(ticks.colour = "transparent", 
@@ -378,7 +378,7 @@ ggdraw() +
 
 
 ggdraw() +
-  draw_label("As taxas de suicídio por gênero, por ano e por região",
+  draw_label("Distribuição regional e temporal da taxa de suicídios",
              size = 18/1.3,
              fontface = "bold",
              fontfamily = "mono") -> titleII

@@ -73,7 +73,7 @@ ggplot(aes(y = age)) +
                    labels = c("5-14", "15-24", "25-34", "35-54", "55-74", "75+")) +
   scale_fill_manual(labels = c("Feminino", "Masculino"),
                        values = c("#D147A1","#0470C2")) +
-  ggtitle("Taxa de suicídios por faixa etária") +
+  ggtitle("Distribuição etária dos suicídios") +
   labs(captions = "Dados do Banco Mundial e da Organização Mundial da Saúde.") +
   geom_label(data = age_data %>% filter(!age == "5-14 years"), aes(label = sapply(suicides, suicide_label), x = suicides),
              size = 5.8) +

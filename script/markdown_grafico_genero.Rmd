@@ -260,7 +260,7 @@ ggdraw() +
 
 
 ggdraw() +
-  draw_label("As taxas de suicídio por gênero, por ano e por região",
+  draw_label("Distribuição regional e temporal da taxa de suicídios",
              size = 18/1.3,
              fontface = "bold",
              fontfamily = "mono") -> titleII
