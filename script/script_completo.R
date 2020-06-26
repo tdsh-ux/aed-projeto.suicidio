@@ -25,15 +25,6 @@ save_pdf_png <- function(plot, nome, diretorio, width, height) {
   }
 }
 
-translate <- function(nome) {
-  if(nome == "Lower middle income") {
-    nome = "Renda média baixa"
-  } else if(nome == "Upper middle income") {
-    nome = "Renda média alta"
-  } else if(nome == "High income") {
-    nome = "Alta renda"
-  }
-}
 
 #--------------------------------------------------------------------------------------
 
