@@ -67,13 +67,15 @@ suicide %>%
   theme_bw() +
   scale_fill_manual(values = c("#42BA30",
                                 "#BA5A1E",
-                                "#190BBA"),
-                    labels = c(expression("Renda média baixa"^1), expression("Renda média alta"^2), expression("Alta renda"^3))
-                    ) +
-        theme(legend.position = c(0.5, 0.96),
+                                "#190BBA")) +
+  guides(fill = FALSE) +
+  scale_x_discrete(labels = c("Renda média baixa \n($1.036 - $4.085)", 
+                              "Renda média alta \n($4.086 - $12.615)", 
+                              "Renda alta \n(> $12.616)")) +
+  theme(legend.position = c(0.5, 0.96),
               legend.direction = "horizontal",
               axis.title.x = element_blank(),
-              axis.text.x = element_blank(),
+              axis.text.x = element_text(size = 13),
               axis.ticks.x = element_blank(),
               legend.title = element_blank(),
               legend.text = element_text(size = 13),
@@ -82,12 +84,11 @@ suicide %>%
               plot.title = element_text(hjust = .5, size = 16, family = "mono", face = "bold"),
               panel.grid.minor.y = element_blank(),
               panel.grid.minor.x = element_blank(),
-              panel.grid.major.x = element_blank(),
-              panel.grid.major.y = element_line(linetype = 2),
+              panel.grid.major.x = element_line(linetype = 2),
+              panel.grid.major.y = element_blank(),
               plot.caption = element_text(hjust = 0, size = 9.5)) +
   ggtitle("Taxa de suicídios por grupo de renda") +
-  labs(captions = "PIB per capta (US$): 1. 1.036 - 4.085; 2. 4.086 - 12.615; 3. > 12.616. 
-       \nDados do Banco Mundial e da Organização Mundial da Saúde.") -> boxplot_incomegroup
+  labs(captions = "Dados do Banco Mundial e da Organização Mundial da Saúde.") -> boxplot_incomegroup
 
 
 
