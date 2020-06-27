@@ -188,7 +188,7 @@ age_data %>%
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank()) +
   geom_vline(xintercept = 0, lty = 2) +
-  scale_x_continuous(labels = c("20", "0", "20", "40"),
+  scale_x_continuous(labels = c("25", "0", "25", "50"),
                      name = "Taxa de suicídios (por cem mil habitantes)",
                      limits = c(-25e-05, 45e-05)) +
   scale_y_discrete(name = "Faixa etária (em anos)",
@@ -202,6 +202,9 @@ age_data %>%
   geom_label_repel(data = age_data %>% filter(age == "5-14 years"),
                    aes(label = sapply(suicides, suicide_label), x = suicides),
                    size = 5.8)-> age_suicide
+
+age_suicide
+
 
 age_suicide
 
