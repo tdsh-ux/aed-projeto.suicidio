@@ -1,9 +1,7 @@
 library(tidyverse)
 library(scales)
 library(cowplot)
-library(ggthemes)
 library(ggrepel)
-
 #---------------------------------------------------------------------------------------------
 carregar <- function(file, extensao = "csv") {
   if(extensao == "csv") {
