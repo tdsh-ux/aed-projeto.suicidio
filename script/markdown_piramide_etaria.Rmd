@@ -11,6 +11,7 @@ library(scales)
 library(cowplot)
 library(ggthemes)
 library(directlabels)
+library(ggrepel)
 ```
 
 # Lendo os dados.
@@ -35,14 +36,15 @@ suicide <- carregar("master.csv") %>% rename(country = ï..country) %>%
 
 suicide_label <- function(x) {
   if(x <= 0){
-    paste0(round(-x*10^5, 0))
+    paste0(round(-x*10^5, 1))
   } else if(x >= 0) {
-    paste0(round(x*10^5, 0))
+    paste0(round(x*10^5, 1))
   }
 }
 
 
 suicide %>%
+  filter(year == 2015) %>%
   group_by(sex, age) %>%
   summarise(suicides = sum(suicides_no)/sum(population)) %>%
   ungroup() %>%
@@ -65,9 +67,9 @@ ggplot(aes(y = age)) +
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank()) +
   geom_vline(xintercept = 0, lty = 2) +
-  scale_x_continuous(labels = c("25", "0", "25", "50"),
+  scale_x_continuous(labels = c("20", "0", "20", "0"),
                      name = "Taxa de suicídios (por cem mil habitantes)",
-                     limits = c(-25e-05, 45e-05)) +
+                     limits = c(-25e-05, 40e-05)) +
   scale_y_discrete(name = "Faixa etária (em anos)",
                    labels = c("5-14", "15-24", "25-34", "35-54", "55-74", "75+")) +
   scale_fill_manual(labels = c("Feminino", "Masculino"),
@@ -75,10 +77,10 @@ ggplot(aes(y = age)) +
   ggtitle("Distribuição etária dos suicídios") +
   labs(captions = "Dados do Banco Mundial e da Organização Mundial da Saúde.") +
   geom_label(data = age_data %>% filter(!age == "5-14 years"), aes(label = sapply(suicides, suicide_label), x = suicides),
-             size = 5.8) +
+             size = 5) +
   geom_label_repel(data = age_data %>% filter(age == "5-14 years"),
                    aes(label = sapply(suicides, suicide_label), x = suicides),
-                   size = 5.8)-> age_suicide
+                   size = 5)-> age_suicide
 
 age_suicide
 
